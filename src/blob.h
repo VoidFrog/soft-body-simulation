@@ -4,9 +4,9 @@
 
 struct BlobParams
 {
-    int pointCount = 32;
+    int pointCount = 64;
     int iterations = 4;
-    float segmentLen = 20.0f;
+    float segmentLen = 10.0f;
     float gravity = 1500.0f;
     float damping = 0.999f;
     float friction = 0.02f;

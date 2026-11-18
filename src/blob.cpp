@@ -37,10 +37,12 @@ void Blob::step(float dt)
 
 void Blob::collide(Rectangle bounds)
 {
-    float left = bounds.x;
-    float right = bounds.x + bounds.width;
-    float top = bounds.y;
-    float bottom = bounds.y + bounds.height;
+    float shaderBBCorrection = 10.0f;
+
+    float left = bounds.x + shaderBBCorrection;
+    float right = bounds.x + bounds.width - shaderBBCorrection;
+    float top = bounds.y + shaderBBCorrection;
+    float bottom = bounds.y + bounds.height - shaderBBCorrection;
 
     for (size_t i = 0; i < pos.size(); i++)
     {

@@ -8,6 +8,12 @@ int main()
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
     InitWindow(1280, 720, "soft-body");
 
+    Shader shader = LoadShader(0, SHADER_DIR "blob.frag");
+    int resolutionLoc = GetShaderLocation(shader, "resolution");
+    int mouseLoc = GetShaderLocation(shader, "mouse");
+    int countLoc = GetShaderLocation(shader, "count");
+    int pointsLoc = GetShaderLocation(shader, "points");
+
     // Bez kontekstu 4.3 nie będzie compute shaderów ani SSBO.
     if (rlGetVersion() != RL_OPENGL_43)
         TraceLog(LOG_WARNING, "missing OpenGL 4.3 context - compute shaders wont work");
@@ -17,6 +23,7 @@ int main()
 
     const float dt = 1.0f / 240.0f;
     float accumulator = 0.0f;
+    bool debugMode = false;
 
     while (!WindowShouldClose())
     {
@@ -36,6 +43,9 @@ int main()
             break;
         case KEY_DOWN:
             blob.params.iterations -= 1;
+            break;
+        case KEY_D:
+            debugMode = !debugMode;
             break;
         }
         // if (IsKeyPressed(KEY_R))
@@ -64,7 +74,20 @@ int main()
         BeginDrawing();
         ClearBackground({18, 18, 24, 255});
 
-        drawBlobDebug(blob);
+        Vector2 res = {(float)GetScreenWidth(), (float)GetScreenHeight()};
+        SetShaderValue(shader, resolutionLoc, &res, SHADER_UNIFORM_VEC2);
+        Vector2 m = GetMousePosition();
+        SetShaderValue(shader, mouseLoc, &m, SHADER_UNIFORM_VEC2);
+        int count = (int)blob.pos.size();
+        SetShaderValue(shader, countLoc, &count, SHADER_UNIFORM_INT);
+        SetShaderValueV(shader, pointsLoc, blob.pos.data(), SHADER_UNIFORM_VEC2, count);
+
+        BeginShaderMode(shader);
+        DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), WHITE);
+        EndShaderMode();
+
+        if (debugMode)
+            drawBlobDebug(blob);
         DrawText(TextFormat("A = %.0f", blob.area()), 10, 40, 20, WHITE);
         DrawText(TextFormat("Iterations = %i", blob.params.iterations), 10, 70, 20, WHITE);
         DrawText(TextFormat("Pressure = %0.2f", blob.params.pressure), 10, 100, 20, WHITE);
@@ -73,6 +96,7 @@ int main()
         EndDrawing();
     }
 
+    UnloadShader(shader);
     CloseWindow();
     return 0;
 }
