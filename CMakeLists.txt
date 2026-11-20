@@ -15,6 +15,7 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
     GIT_TAG        5.5
     GIT_SHALLOW    TRUE
+    SYSTEM
 )
 FetchContent_MakeAvailable(raylib)
 

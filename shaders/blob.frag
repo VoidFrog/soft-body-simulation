@@ -8,6 +8,8 @@ uniform vec2 resolution;
 
 uniform vec2 mouse;
 
+uniform vec3 baseColor;
+
 out vec4 finalColor;
 
 
@@ -39,7 +41,7 @@ vec2 sdGrad(vec2 p)
 void main () 
 {
     vec3 bg = vec3(0.17, 0.18, 0.22);
-    vec3 blob = vec3(0.35, 0.9, 0.55);
+    vec3 blob = baseColor;
     
     vec2 p = vec2(gl_FragCoord.x, resolution.y - gl_FragCoord.y);
     float d = sdPolygon(p) - 10.0;

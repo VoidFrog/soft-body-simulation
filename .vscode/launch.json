@@ -2,12 +2,22 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "soft_body (debug)",
+            "name": "soft_body (debug, Windows)",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build"
+        },
+        {
+            "name": "soft_body (debug, Linux)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "externalConsole": false,
             "preLaunchTask": "CMake: build"
         }
     ]

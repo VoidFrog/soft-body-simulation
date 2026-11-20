@@ -4,7 +4,7 @@
 
 struct BlobParams
 {
-    int pointCount = 64;
+    int pointCount = 48;
     int iterations = 4;
     float segmentLen = 10.0f;
     float gravity = 1500.0f;
@@ -12,6 +12,7 @@ struct BlobParams
     float friction = 0.02f;
     float pressure = 1.0f;
     float bendStiffness = 0.2f;
+    Vector3 baseColor = {0.35f, 0.9f, 0.55f};
 };
 
 struct Blob

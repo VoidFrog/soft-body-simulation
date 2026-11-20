@@ -6,7 +6,26 @@
       "displayName": "MSVC x64",
       "generator": "Visual Studio 17 2022",
       "architecture": "x64",
-      "binaryDir": "${sourceDir}/build"
+      "binaryDir": "${sourceDir}/build",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "linux",
+      "displayName": "Linux (Ninja Multi-Config)",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
     }
   ],
   "buildPresets": [
@@ -14,6 +33,12 @@
     {
       "name": "release",
       "configurePreset": "vs2022",
+      "configuration": "Release"
+    },
+    { "name": "linux-debug", "configurePreset": "linux", "configuration": "Debug" },
+    {
+      "name": "linux-release",
+      "configurePreset": "linux",
       "configuration": "Release"
     }
   ]
